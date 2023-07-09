@@ -1,4 +1,4 @@
-const cors = require('cors');
+import cors from 'cors';
 
 //middleware function to only allow from ALLOWED_HOSTS
 
@@ -12,4 +12,4 @@ const corsOptions = {
     }
 };
 
-module.exports = cors(corsOptions);
+export default cors(corsOptions);
