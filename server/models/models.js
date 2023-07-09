@@ -15,7 +15,7 @@ const adminSchema = new Schema({
 const problemSchema = new Schema({
     name: String,
     description: String,
-    tags: [String]
+    tags: Object
 });
 
 const testCaseSchema = new Schema({
@@ -36,10 +36,4 @@ const Problem = mongoose.model('Problem', problemSchema);
 const TestCase = mongoose.model('TestCase', testCaseSchema);
 const Submission = mongoose.model('Submission', submissionSchema);
 
-module.exports = {
-    User,
-    Admin,
-    Problem,
-    TestCase,
-    Submission
-};
+export { User, Admin, Problem, TestCase, Submission };
