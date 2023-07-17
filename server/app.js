@@ -15,7 +15,7 @@ const app = express();
 
 //middlewares
 app.use(cors);
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Connect to MongoDB
 connectDB();
@@ -25,7 +25,7 @@ app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 // app.use(authenticateUser); // authenticate all the routes below
 app.use("/problems", problemRoutes);
-// app.use(authorizeUser); // only admins are allowed to access the routes below
+app.use(authorizeUser); // only admins are allowed to access the routes below
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}`);
