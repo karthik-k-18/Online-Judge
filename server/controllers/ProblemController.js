@@ -37,7 +37,7 @@ const submitProblem = async (req, res) => {
     compile(inputFilepath, executableFilepath).then((message) => {
       run(executableFilepath, testCase.input, testCase.output).then(
         (verdict) => {
-          res.status(200).json({ verdict: verdict });
+          res.status(200).json({  verdict });
         }
       ).catch((err) => {
         res.status(404).json({ message: "Runtime error!" });

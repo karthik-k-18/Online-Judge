@@ -8,8 +8,6 @@ import cors from "./middlewares/cors.js"; // CORS middleware
 import userRoutes from "./routes/user_Endpoints.js";
 import adminRoutes from "./routes/admin_Endpoints.js";
 import problemRoutes from "./routes/problem_Endpoints.js";
-import { authenticateUser } from "./middlewares/authenticate.js";
-import { authorizeUser } from "./middlewares/authorize.js";
 
 const app = express();
 
@@ -23,9 +21,7 @@ connectDB();
 // API routes
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
-// app.use(authenticateUser); // authenticate all the routes below
 app.use("/problems", problemRoutes);
-app.use(authorizeUser); // only admins are allowed to access the routes below
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}`);
