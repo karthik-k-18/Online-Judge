@@ -22,11 +22,11 @@ const run = async (inputFilepath, input, output) => {
     const executable= inputFile.split(".")[0]+".exe";
     const process = spawn("docker", [
       "run",
-      // "--rm", // Remove container after exit.
+      "--rm", // Remove container after exit.
       "-i",
       "-v",
       `${path.resolve("submissions")}:/app/dockerSubmissions`, // Mount the host directory to the container.
-      "test",
+      "test", //image name
       "sh", // Use shell inside the container to execute the command.
       "-c",
       `g++ /app/dockerSubmissions/${inputFile} -o /app/dockerSubmissions/${executable} && /app/dockerSubmissions/${executable}`, // Compile and run the executable inside the container.
