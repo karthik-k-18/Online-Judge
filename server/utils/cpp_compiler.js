@@ -1,4 +1,5 @@
 import { exec, spawn } from "child_process";
+import path from "path";
 
 const compile = async (inputfilepath, executablefilepath) => {
   return new Promise((resolve, reject) => {
@@ -14,16 +15,21 @@ const compile = async (inputfilepath, executablefilepath) => {
   });
 };
 
-const run = async (executablefilepath, input, output) => {
+
+const run = async (inputFilepath, input, output) => {
   return new Promise((resolve, reject) => {
+    const inputFile = path.basename(inputFilepath);
+    const executable= inputFile.split(".")[0]+".exe";
     const process = spawn("docker", [
       "run",
-      "--rm", // Remove container after exit.
+      // "--rm", // Remove container after exit.
       "-i",
+      "-v",
+      `${path.resolve("submissions")}:/app/dockerSubmissions`, // Mount the host directory to the container.
       "test",
       "sh", // Use shell inside the container to execute the command.
       "-c",
-      executablefilepath, // Pass the command to be executed as an argument.
+      `g++ /app/dockerSubmissions/${inputFile} -o /app/dockerSubmissions/${executable} && /app/dockerSubmissions/${executable}`, // Compile and run the executable inside the container.
     ]);
     process.stdin.write(input);
     process.stdin.end();
@@ -42,32 +48,4 @@ const run = async (executablefilepath, input, output) => {
 };
 
 
-
 export { compile, run };
-
-
-// const run = async (executablefilepath, input, output) => {
-//   return new Promise((resolve, reject) => {
-//     const process = spawn("docker", [
-//       "run",
-//       // "--rm", // remove container after exit.
-//       "-i",
-//       "test",
-//     ]);
-//     const child = spawn(executablefilepath);
-//     child.stdin.write(input);
-//     child.stdin.end();
-//     child.stdout.on("data", (data) => {
-//       data = data.toString().trim();
-//       if (data.toString() === output) {
-//         resolve("Accepted");
-//       } else {
-//         resolve("Wrong Answer");
-//       }
-//     });
-//     child.stderr.on("data", (data) => {
-//       reject("Runtime error!");
-//     });
-//   });
-// };
-

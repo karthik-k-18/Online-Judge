@@ -35,7 +35,7 @@ const submitProblem = async (req, res) => {
     const executableFilepath = path.join(process.cwd(),"submissions", `${id}.exe`);
     await fs.writeFile(inputFilepath, code);
     compile(inputFilepath, executableFilepath).then((message) => {
-      run(executableFilepath, testCase.input, testCase.output).then(
+      run(inputFilepath, testCase.input, testCase.output).then(
         (verdict) => {
           res.status(200).json({  verdict });
         }
