@@ -81,10 +81,6 @@ export { compile, run };
 
 
 
-
-
-
-
 //each time we run a program we create a new container and run the program inside it
 //security wise it is better than running the program directly on the server
 //performance wise it is not as good as running as creating a new container each time is time consuming
