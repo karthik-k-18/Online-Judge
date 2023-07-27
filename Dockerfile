@@ -5,17 +5,22 @@ FROM node:lts
 WORKDIR /app
 
 # Copy the package.json and package-lock.json files to the container
-#To provide necessary dependencies for your Node.js application.(child_process, express, fs)
 COPY server/package.json server/package-lock.json /app/
 
 # Install Node.js dependencies
 RUN npm install
 
-# Copying only fake entry point file to the container
-COPY server/dockerApp.js .
+# Install GCC for C and C++ support
+RUN apt-get update && apt-get install -y gcc g++
 
-# Expose the port on which your Node.js app is listening inside of a container
+# Install Python for Python support
+RUN apt-get install -y python3
+
+# Copy all your server contents to the app directory
+COPY server/ .
+
+# Expose the port on which your Node.js app is listening inside the container
 EXPOSE 8000
 
 # Set the command to run the Node.js application
-CMD ["node", "dockerApp.js"]  # Replace "server.js" with your entry point file
+CMD ["node", "app.js"]
