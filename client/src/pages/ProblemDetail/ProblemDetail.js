@@ -1,7 +1,6 @@
-
-import React from 'react';
-import MonacoEditor from '../../components/Editor/Editor';
-import './ProblemDetail.css';
+import React from "react";
+import MonacoEditor from "../../components/Editor/Editor";
+import "./ProblemDetail.css";
 
 const ProblemDetail = () => {
   return (
@@ -10,18 +9,37 @@ const ProblemDetail = () => {
         {/* Render your user code component here */}
         {/* For example, <UserEditor /> or any other component */}
       </div>
+
       <div className="verticalsplitter" draggable="true"></div>
+
       <div className="editor-container">
+        <div className="language-selector">
+          Language - .
+          <select>
+            <option value="cpp">C++</option>
+          </select>
+        </div>
         <MonacoEditor />
         <div className="horizontalsplitter" draggable="true"></div>
         <div className="footer">
-          <input type="text" placeholder="Custom Input" />
-          <button >Run</button>
-          <button >Submit</button>
+          <div class="line-1">
+            <button>Submit</button>
+          </div>
+          <div class="line-2">
+            <textarea
+              placeholder="Custom Input"
+              rows="1"
+              onKeyDown={(e) => {
+                // Set the textarea height to fit the content as the user types
+                e.target.style.height = "inherit";
+                e.target.style.height = `${e.target.scrollHeight}px`;
+              }}
+            />
+            <button>Run</button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
-
 export default ProblemDetail;
