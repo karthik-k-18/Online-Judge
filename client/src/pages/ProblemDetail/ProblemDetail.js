@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import MonacoEditor from "../../components/Editor/Editor";
 import "./ProblemDetail.css";
 
 const ProblemDetail = () => {
+  const [problem, setProblem] = useState([]);
+  const [code, setCode] = useState("cout<<'hello world';");
+  console.log(code);
+
+  const handleCodeChange = (newCode) => {
+    setCode(newCode);
+  };
+
   return (
     <div className="split-container">
       <div className="code-container">
@@ -14,18 +22,18 @@ const ProblemDetail = () => {
 
       <div className="editor-container">
         <div className="language-selector">
-          Language - .
+          Language - 
           <select>
             <option value="cpp">C++</option>
           </select>
         </div>
-        <MonacoEditor />
+        <MonacoEditor onChange={handleCodeChange} />
         <div className="horizontalsplitter" draggable="true"></div>
         <div className="footer">
-          <div class="line-1">
+          <div className="line-1">
             <button>Submit</button>
           </div>
-          <div class="line-2">
+          <div className="line-2">
             <textarea
               placeholder="Custom Input"
               rows="1"
