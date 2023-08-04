@@ -1,8 +1,9 @@
 
-import MonacoEditor from "../../components/Editor/Editor";
 function Home(){
     return(
-        <MonacoEditor />
+        <>
+            <h1>Home</h1>
+        </>
     );
 }
 

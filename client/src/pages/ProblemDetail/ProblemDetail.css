@@ -1,0 +1,36 @@
+/* SplitLayout.css */
+.split-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .code-container,
+  .editor-container {
+    flex: 1;
+    overflow: auto;
+    min-width: 0;
+  }
+  
+  .verticalsplitter {
+    width: 5px;
+    cursor: col-resize;
+    background-color: #ccc;
+  }
+  
+  .horizontalsplitter {
+    height: 5px;
+    cursor: row-resize;
+    background-color: #ccc;
+  }
+  
+  /* Optional styles for better visualization */
+  .code-container {
+    background-color: #f0f0f0;
+    padding: 0px;
+  }
+  
+  .editor-container {
+    background-color: #fff;
+    padding: 8px;
+  }
+  
