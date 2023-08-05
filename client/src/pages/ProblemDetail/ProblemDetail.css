@@ -1,7 +1,7 @@
 /* SplitLayout.css */
 .split-container {
   display: flex;
-  height: 100vh;
+  
 }
 
 .code-container,

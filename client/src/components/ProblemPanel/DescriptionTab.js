@@ -1,8 +1,15 @@
+import { Typography } from "@mui/material";
+
+
 const DescriptionTab = ({ name,description }) => {
   return (
         <>
-        <h2>{name}</h2>
-        <p>{description}</p>
+            <Typography variant="h4" component="h2" gutterBottom>
+                {name}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+                {description}
+            </Typography>
         </>
   );
 };

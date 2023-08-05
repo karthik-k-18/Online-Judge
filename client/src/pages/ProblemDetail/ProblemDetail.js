@@ -2,13 +2,23 @@ import React, { useState, useEffect } from "react";
 import MonacoEditor from "../../components/EditorPanel/Editor";
 import ProblemPanel from "../../components/ProblemPanel/ProblemPanel";
 import { useParams } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import "./ProblemDetail.css";
 import axios from "axios";
+import { Typography } from "@mui/material";
+
+const cppCode =
+  '#include <iostream>\n\nint main() {\n    std::cout << "Hello, World!";\n    return 0;\n}';
 
 const ProblemDetail = () => {
   const [problem, setProblem] = useState([]);
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(cppCode);
+  const [verdictLoading, setVerdictLoading] = useState(false);
+  const [once, setOnce] = useState(false);
   const { slug } = useParams();
+  const [verdict, setVerdict] = useState("");
+  const [verdictError, setVerdictError] = useState("");
   useEffect(() => {
     const fetchProblem = async () => {
       try {
@@ -16,8 +26,7 @@ const ProblemDetail = () => {
           process.env.REACT_APP_API_ENDPOINT + "problems/" + slug
         );
         setProblem(res.data);
-      } catch(error) {
-        console.log(error.response.message);
+      } catch (error) {
       } finally {
       }
     };
@@ -26,29 +35,33 @@ const ProblemDetail = () => {
 
   const handleSubmit = async () => {
     try {
+      if (!once) setOnce(true);
+      setVerdictLoading(true);
       const res = await axios.post(
         process.env.REACT_APP_API_ENDPOINT + "problems/" + slug + "/submit",
         {
           code: code,
         }
       );
-      console.log(res.data);
-    } catch {
+      setVerdict(res.data.verdict);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setVerdict(error.response.data.message);
+        console.log(error.response.data.message);
+      }
     } finally {
+      setVerdictLoading(false);
     }
   };
-
-
-  console.log(problem);
 
   const handleCodeChange = (newCode) => {
     setCode(newCode);
   };
-
+  console.log(verdict)
   return (
     <div className="split-container">
       <div className="code-container">
-        <ProblemPanel problem={problem}/>
+        <ProblemPanel problem={problem} />
       </div>
 
       <div className="verticalsplitter" draggable="true"></div>
@@ -62,6 +75,13 @@ const ProblemDetail = () => {
         </div>
         <MonacoEditor onChange={handleCodeChange} />
         <div className="horizontalsplitter" draggable="true"></div>
+
+        {!once ? (
+          <></>
+        ) : (
+          <Verdict verdictLoading={verdictLoading} verdict={verdict} />
+        )}
+
         <div className="footer">
           <div className="line-1">
             <button onClick={handleSubmit}>Submit</button>
@@ -83,4 +103,37 @@ const ProblemDetail = () => {
     </div>
   );
 };
+
+const Verdict = ({ verdictLoading, verdict }) => {
+  return (
+    <>
+      {verdictLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px 0 0 0",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "0 0 0 0",
+          }}
+        >
+          <Typography variant="h5" component="h2" sx={{marginTop:'5px'}}>
+            {verdict}
+          </Typography>
+        </Box>
+      )}
+    </>
+  );
+};
+
 export default ProblemDetail;
