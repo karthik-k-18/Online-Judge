@@ -1,11 +1,45 @@
-import React, { useState } from "react";
-import MonacoEditor from "../../components/Editor/Editor";
+import React, { useState, useEffect } from "react";
+import MonacoEditor from "../../components/EditorPanel/Editor";
+import ProblemPanel from "../../components/ProblemPanel/ProblemPanel";
+import { useParams } from "react-router-dom";
 import "./ProblemDetail.css";
+import axios from "axios";
 
 const ProblemDetail = () => {
   const [problem, setProblem] = useState([]);
-  const [code, setCode] = useState("cout<<'hello world';");
-  console.log(code);
+  const [code, setCode] = useState("");
+  const { slug } = useParams();
+  useEffect(() => {
+    const fetchProblem = async () => {
+      try {
+        const res = await axios.get(
+          process.env.REACT_APP_API_ENDPOINT + "problems/" + slug
+        );
+        setProblem(res.data);
+      } catch(error) {
+        console.log(error.response.message);
+      } finally {
+      }
+    };
+    fetchProblem();
+  }, [slug]);
+
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post(
+        process.env.REACT_APP_API_ENDPOINT + "problems/" + slug + "/submit",
+        {
+          code: code,
+        }
+      );
+      console.log(res.data);
+    } catch {
+    } finally {
+    }
+  };
+
+
+  console.log(problem);
 
   const handleCodeChange = (newCode) => {
     setCode(newCode);
@@ -14,15 +48,14 @@ const ProblemDetail = () => {
   return (
     <div className="split-container">
       <div className="code-container">
-        {/* Render your user code component here */}
-        {/* For example, <UserEditor /> or any other component */}
+        <ProblemPanel problem={problem}/>
       </div>
 
       <div className="verticalsplitter" draggable="true"></div>
 
       <div className="editor-container">
         <div className="language-selector">
-          Language - 
+          Language -
           <select>
             <option value="cpp">C++</option>
           </select>
@@ -31,7 +64,7 @@ const ProblemDetail = () => {
         <div className="horizontalsplitter" draggable="true"></div>
         <div className="footer">
           <div className="line-1">
-            <button>Submit</button>
+            <button onClick={handleSubmit}>Submit</button>
           </div>
           <div className="line-2">
             <textarea
