@@ -12,14 +12,16 @@ const Navbar = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           My App
         </Typography>
+        <Typography>
         <Button component={Link} to="/" color="inherit">
           Home
         </Button>
+        </Typography>
         <Button component={Link} to="/problems" color="inherit">
           Problems
         </Button>
-        <Button component={Link} to="/contact" color="inherit">
-          Contact
+        <Button component={Link} to="/signin" color="inherit">
+          Register
         </Button>
       </Toolbar>
     </AppBar>
