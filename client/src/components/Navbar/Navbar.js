@@ -9,15 +9,15 @@ const Navbar = () => {
     
     <AppBar position="sticky" color='primary'>
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          My App
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1,fontFamily:'serif' }}>
+          Online Judge
         </Typography>
         <Typography>
         <Button component={Link} to="/" color="inherit">
           Home
         </Button>
         </Typography>
-        <Button component={Link} to="/problems" color="inherit">
+        <Button component={Link} to="/problems/all" color="inherit">
           Problems
         </Button>
         <Button component={Link} to="/signin" color="inherit">

@@ -57,7 +57,6 @@ const ProblemDetail = () => {
   const handleCodeChange = (newCode) => {
     setCode(newCode);
   };
-  console.log(verdict)
   return (
     <div className="split-container">
       <div className="code-container">
