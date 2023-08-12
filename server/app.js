@@ -3,7 +3,8 @@ import bodyParser from "body-parser"; // Parse incoming request bodies in a midd
 import dotenv from "dotenv";
 dotenv.config(); // Load environment variables from .env file to process.env object
 import connectDB from "./config/database.js"; // Connect to MongoDB
-import cors from "./middlewares/cors.js"; // CORS middleware
+// import cors from "./middlewares/cors.js"; // CORS middleware
+import cors from "cors";
 // Routes
 import userRoutes from "./routes/user_Endpoints.js";
 import adminRoutes from "./routes/admin_Endpoints.js";
@@ -12,7 +13,7 @@ import problemRoutes from "./routes/problem_Endpoints.js";
 const app = express();
 
 //middlewares
-app.use(cors);
+app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB

@@ -4,9 +4,9 @@ import { getProblems, getProblem ,submitProblem} from "../controllers/ProblemCon
 import { authenticateUser } from "../middlewares/authenticate.js";
 import { authorizeUser } from "../middlewares/authorize.js";
 
-router.get("/all",  getProblems);
-router.get("/:id", getProblem);
-router.post("/:id/submit", submitProblem);
+router.get("/all",authenticateUser,  getProblems);
+router.get("/:id",authenticateUser,   getProblem);
+router.post("/:id/submit",authenticateUser, submitProblem);
 
 
 export default router;

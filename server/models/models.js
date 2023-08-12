@@ -2,7 +2,9 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  name: String,
+  firstname: String,
+  lastname: String,
+  email: { type: String, unique: true },
   password: String,
   submissions: [{ type: Schema.Types.ObjectId, ref: "Submission" }],
 });
@@ -13,6 +15,7 @@ const adminSchema = new Schema({
 });
 
 const problemSchema = new Schema({
+  id:Number,
   name: String,
   description: String,
   tags: Object,
@@ -25,7 +28,7 @@ const testCaseSchema = new Schema({
 });
 
 const submissionSchema = new Schema({
-  verdict: String,
+  verdict: String,//AC,WA,TLE,RE
   submission_time: { type: Date, default: Date.now },
   problem: { type: Schema.Types.ObjectId, ref: "Problem" },
 });
