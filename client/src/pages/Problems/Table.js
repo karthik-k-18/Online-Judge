@@ -101,7 +101,7 @@ const Difficulty = ({ dif }) => {
 const Status = ({ status }) => {
   return (
     <>
-      {status !== "done" ? (
+      {status === undefined || status === "NA" ? (
         <TableCell align="center" sx={{ color: "grey" }}>
           <Tooltip title="Not Solved" arrow>
             <FlakyOutlinedIcon />

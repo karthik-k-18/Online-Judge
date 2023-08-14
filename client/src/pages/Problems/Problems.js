@@ -10,17 +10,31 @@ function Problems({ auth }) {
     const fetchProblems = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(
-          process.env.REACT_APP_API_ENDPOINT + "problems/all"
-        );
-        setProblems(res.data);
+        if(auth){
+          const res = await axios.get(
+            process.env.REACT_APP_API_ENDPOINT + "problems/all",
+            {
+              headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("token"),
+              },
+            }
+          );
+          setProblems(res.data);
+        }else{
+          const res = await axios.get(
+            process.env.REACT_APP_API_ENDPOINT + "problems/all"
+          );
+          setProblems(res.data);
+        }
       } catch {
+        alert("Something went wrong");
       } finally {
         setLoading(false);
       }
     };
     fetchProblems();
   }, []);
+  console.log(problems);
   return (
     <>
       <Problem problems={problems} />

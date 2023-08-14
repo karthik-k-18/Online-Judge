@@ -7,18 +7,21 @@ import Box from "@mui/material/Box";
 import "./ProblemDetail.css";
 import axios from "axios";
 import { Typography } from "@mui/material";
+import uuid from "react-uuid";
+import Snackbar from "../../components/Snackbar/Snackbar";
 
 const cppCode =
   '#include <iostream>\n\nint main() {\n    std::cout << "Hello, World!";\n    return 0;\n}';
 
-const ProblemDetail = () => {
+const ProblemDetail = ({ auth }) => {
   const [problem, setProblem] = useState([]);
+  const [info, setInfo] = useState(false);
   const [code, setCode] = useState(cppCode);
   const [verdictLoading, setVerdictLoading] = useState(false);
   const [once, setOnce] = useState(false);
-  const { slug } = useParams();
   const [verdict, setVerdict] = useState("");
-  const [verdictError, setVerdictError] = useState("");
+  const uniqueId = uuid();
+  const { slug } = useParams();
   useEffect(() => {
     const fetchProblem = async () => {
       try {
@@ -35,15 +38,24 @@ const ProblemDetail = () => {
 
   const handleSubmit = async () => {
     try {
-      if (!once) setOnce(true);
-      setVerdictLoading(true);
-      const res = await axios.post(
-        process.env.REACT_APP_API_ENDPOINT + "problems/" + slug + "/submit",
-        {
-          code: code,
-        }
-      );
-      setVerdict(res.data.verdict);
+      if (!auth) {
+        setInfo(true);
+      } else {
+        if (!once) setOnce(true);
+        setVerdictLoading(true);
+        const res = await axios.post(
+          process.env.REACT_APP_API_ENDPOINT + `problems/${slug}/submit`,
+          {
+            code: code,
+          },
+          {
+            headers: {
+              authorization: "Bearer " + sessionStorage.getItem("token"),
+            },
+          }
+        );
+        setVerdict(res.data.message);
+      }
     } catch (error) {
       if (error.response && error.response.data) {
         setVerdict(error.response.data.message);
@@ -51,6 +63,9 @@ const ProblemDetail = () => {
       }
     } finally {
       setVerdictLoading(false);
+      setTimeout(() => {
+        setInfo(false);
+      }, 3000);
     }
   };
 
@@ -99,6 +114,14 @@ const ProblemDetail = () => {
           </div>
         </div>
       </div>
+      {info && (
+        <Snackbar
+          id={uniqueId}
+          type="warning"
+          message="Please login to submit"
+          key={uniqueId}
+        />
+      )}
     </div>
   );
 };
@@ -126,7 +149,7 @@ const Verdict = ({ verdictLoading, verdict }) => {
             padding: "0 0 0 0",
           }}
         >
-          <Typography variant="h5" component="h2" sx={{marginTop:'5px'}}>
+          <Typography variant="h5" component="h2" sx={{ marginTop: "5px" }}>
             {verdict}
           </Typography>
         </Box>
