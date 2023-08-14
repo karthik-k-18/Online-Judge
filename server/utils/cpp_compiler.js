@@ -27,9 +27,9 @@ const run = async (executablefilepath, input, output) => {
     child.stdout.on("data", (data) => {
       data = data.toString().trim();
       if (data.toString() === output) {
-        resolve("Accepted");
+        resolve("AC");
       } else {
-        resolve("Wrong Answer");
+        resolve("WA");
       }
     });
     child.stderr.on("data", (data) => {

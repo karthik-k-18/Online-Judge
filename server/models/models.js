@@ -29,6 +29,7 @@ const testCaseSchema = new Schema({
 
 const submissionSchema = new Schema({
   verdict: String,//AC,WA,TLE,RE
+  code: String,
   submission_time: { type: Date, default: Date.now },
   problem: { type: Schema.Types.ObjectId, ref: "Problem" },
 });
