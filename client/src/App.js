@@ -12,7 +12,7 @@ const App = () => {
   const [auth, setAuth] = React.useState(false);
   return (
     <>
-      <Navbar />
+      <Navbar auth={auth} setAuth={setAuth}/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />

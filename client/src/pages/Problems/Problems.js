@@ -27,7 +27,7 @@ function Problems({ auth }) {
           setProblems(res.data);
         }
       } catch {
-        alert("Something went wrong");
+        alert("Something went wrong while fetching the problems");
       } finally {
         setLoading(false);
       }

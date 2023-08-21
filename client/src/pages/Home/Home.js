@@ -1,10 +1,14 @@
 
-function Home(){
-    return(
-        <>
-            <h1>Home</h1>
-        </>
-    );
+import * as React from 'react';
+import ProductHero from './modules/views/ProductHero';
+import withRoot from './modules/withRoot';
+
+function Index() {
+  return (
+    <React.Fragment>
+      <ProductHero />
+    </React.Fragment>
+  );
 }
 
-export default Home;
+export default withRoot(Index);

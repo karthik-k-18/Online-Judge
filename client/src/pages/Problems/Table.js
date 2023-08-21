@@ -29,7 +29,7 @@ export default function BasicTable({ problems }) {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 500 }} aria-label="simple table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: "grey" }}>
+            <TableRow sx={{ backgroundColor: "#3f83f2" }}>
               <TableCell align="center">
                 <Typography variant="h6" sx={{ color: "white" }}>
                   Status
